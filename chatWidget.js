@@ -333,7 +333,7 @@
   const handlePrompt = async (message) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}api/query/`,
+        `https://kfwsdw58-8000.inc1.devtunnels.ms/api/query/`,
         {
           method: "POST",
           headers: {
@@ -393,19 +393,20 @@
   function reply(message) {
     const replyElement = document.createElement("div");
     replyElement.className = "flex mb-3";
-    
+
     const messageContainer = document.createElement("div");
-    messageContainer.className = "bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]";
+    messageContainer.className =
+      "bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]";
     replyElement.appendChild(messageContainer);
-  
+
     const chatLoadingDiv = document.getElementById("chat-loading");
     if (chatLoadingDiv) {
       chatLoadingDiv.remove();
     }
-  
+
     chatMessages.appendChild(replyElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
-  
+
     let index = 0;
 
     function typeWriter() {
@@ -415,8 +416,7 @@
         setTimeout(typeWriter, 5);
       }
     }
-    
+
     typeWriter();
   }
-  
 })();
