@@ -1,41 +1,38 @@
 (function () {
   // Inject the CSS
   const style = document.createElement("style");
-
   const config = window.chatWidgetConfig || {};
   const {
-    bubbleBgColor,
-    bubbleColor,
+    bubbleBgColor = "#1E3A8A",
+    bubbleColor = "#FFFFFF",
 
-    chatBackgroundColor,
-    chatBorder,
-    headerBackgroundColor,
-    headerTextColor,
+    chatBackgroundColor = "#F0F4F8",
+    chatBorder = "#C6D1E1",
+    headerBackgroundColor = "#3B82F6",
+    headerTextColor = "#FFFFFF",
 
-    footerBackgroundColor,
+    footerBackgroundColor = "#1E3A8A",
 
-    sendButtonColor,
-    sendTextColor,
+    sendButtonColor = "#2563EB",
+    sendTextColor = "#FFFFFF",
 
-    headerText,
-    inputBorderColor,
-    placeholderText,
-    inputTextColor,
-    inputBgColor,
+    headerText = "Chat with us",
+    inputBorderColor = "#3B82F6",
+    placeholderText = "Type your message here...",
+    inputTextColor = "#1F2937",
+    inputBgColor = "#E0E7FF",
 
-    questionTextColor,
-    questionBackgroundColor,
-    answerTextColor,
-    answerBackgroundColor,
-    faqTextColor,
-    faqBackgroundColor,
-    faqSectionBackgroundColor,
+    questionTextColor = "#ffffff",
+    questionBackgroundColor = "#2d3748",
+    answerTextColor = "#000000",
+    answerBackgroundColor = "#e5e7eb",
+    faqTextColor = "#000000",
+    faqBackgroundColor = "#e5e7eb",
+    faqSectionBackgroundColor = "#000000",
     Key,
 
     FAQs,
   } = config;
-  // console.log(FAQs);
-  // console.log(config);
 
   function getFooterWatermarkColor(hex, factor = 0.4) {
     // Convert hex to RGB
@@ -67,10 +64,7 @@
 
   style.innerHTML = `
     .hidden {
-      display: none;
-    }
-    #watermark{
-      color:${watermarkColor};
+      display: none !important;
     }
     #chat-widget-container {
       position: fixed;
@@ -78,28 +72,7 @@
       right: 20px;
       flex-direction: column;
     }
-    #chat-messages{
-      border-top: 1px solid ${chatBorder};
-      border-bottom: 1px solid ${chatBorder};
-    }
-    #chat-popup {
-      height: 70vh;
-      max-height: 70vh;
-      transition: all 0.3s;
-      overflow: hidden;
-      background-color: ${chatBackgroundColor};
-    }
-    #chat-header{
-      background-color:${headerBackgroundColor};
-      color:${headerTextColor};
-    }
-    #chat-input-container{
-      background-color:${footerBackgroundColor};
-    }
-    #chat-submit {
-      color:${sendTextColor};
-      background-color:${sendButtonColor};
-    }
+    
     #chat-bubble{
       background-color:${bubbleBgColor};
       color:${bubbleColor};
@@ -115,6 +88,78 @@
     #chat-button{
       height: 2.5rem;
       width: 2.5rem;
+    }
+    
+    #chat-popup {
+      height: 70vh;
+      max-height: 70vh;
+      transition: all 0.3s;
+      overflow: hidden;
+      background-color: ${chatBackgroundColor};
+      position: absolute;
+      bottom: 4.5rem;
+      right: 0;
+      width: 24rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      font-size: 0.875rem;
+    }
+    #chat-messages{
+      border-top: 1px solid ${chatBorder};
+      border-bottom: 1px solid ${chatBorder};
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    #chat-questions {
+      background-color:${faqSectionBackgroundColor};
+      display: flex;
+      overflow-x: auto;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+
+    #chat-header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: ${headerBackgroundColor};
+      color: ${headerTextColor};
+      border-top-left-radius: 0.375rem;
+      border-top-right-radius: 0.375rem;
+    }
+    #chat-header h3 {
+      margin: 0;
+      font-size: 1.125rem;
+    }
+    #close-popup{
+      border: none;
+      cursor: pointer;
+      background-color:inherit;
+    }
+    #close-popup svg{
+      height:1.5rem;
+      width:1.5rem;
+      color: ${headerTextColor};
+      stroke: currentColor;
+      fill: currentColor;
+    }
+
+    #chat-input-container{
+      background-color:${footerBackgroundColor};
+      padding:1rem;
+    }
+    #chat-input-container div{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+    }
+    #chat-submit {
+      color:${sendTextColor};
+      background-color:${sendButtonColor};
     }
     #chat-input{
       background-color:${inputBgColor};
@@ -136,6 +181,48 @@
       border-radius: 6px;
       cursor: pointer;
     }
+    
+    #watermark{
+      color:${watermarkColor};
+      text-align:center;
+      font-size:0.75rem;
+      padding-top:1rem;
+    }
+    
+    #faq-button{
+      background-color: ${faqBackgroundColor};
+      padding: 0.5rem 0.5rem;
+      border-radius: 0.375rem;
+      border:none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      color: ${faqTextColor};
+    }
+    
+    #question{
+      display:flex;
+      justify-content: flex-end;
+      margin-bottom:0.75rem;
+    }
+    #question div{
+      background-color:${questionBackgroundColor} ;
+      color: ${questionTextColor};
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      max-width: 70%;
+    }
+    #answer{
+      margin-bottom:0.75rem;
+      display:flex;
+    }
+    #answer div{
+      max-width:70%;
+      border-radius:0.5rem;
+      padding:0.5rem 1rem;
+      color:${answerTextColor};
+      background-color: ${answerBackgroundColor};
+    }
     .loader {
       width: 40px;
       aspect-ratio: 2;
@@ -148,53 +235,11 @@
       animation: l3 1s infinite linear;
     }
     @keyframes l3 {
-        20%{background-position:0%   0%, 50%  50%,100%  50%}
-        40%{background-position:0% 100%, 50%   0%,100%  50%}
-        60%{background-position:0%  50%, 50% 100%,100%   0%}
-        80%{background-position:0%  50%, 50%  50%,100% 100%}
+      20%{background-position:0%   0%, 50%  50%,100%  50%}
+      40%{background-position:0% 100%, 50%   0%,100%  50%}
+      60%{background-position:0%  50%, 50% 100%,100%   0%}
+      80%{background-position:0%  50%, 50%  50%,100% 100%}
     }
-    // .loader {
-    //   text-align: left;
-    //   display: flex;
-    //   justify-content: flex-start; 
-    // }
-
-    // .loader span {
-    //   display: inline-block;
-    //   vertical-align: middle;
-    //   width: 10px;
-    //   height: 10px;
-    //   background: black;
-    //   border-radius: 50%;
-    //   animation: loader 0.8s infinite alternate;
-    // }
-
-    // .loader span:nth-of-type(2) {
-    //   animation-delay: 0.2s;
-    // }
-
-    // .loader span:nth-of-type(3) {
-    //   animation-delay: 0.6s;
-    // }
-
-    // @keyframes loader {
-    //   0% {
-    //     opacity: 0.9;
-    //     transform: scale(0.5);
-    //   }
-    //   100% {
-    //     opacity: 0.1;
-    //     transform: scale(1);
-    //   }
-    // }
-.customDiv {
-  background-color: #1f2937;
-  color: white;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  max-width: 70%;
-}
-
 
     @media (max-width: 640px) {
       #chat-popup {
@@ -225,30 +270,28 @@
         </svg>
       </div>
 
-      <div id="chat-popup" class="absolute bottom-18 right-0 w-96 rounded-md shadow-md flex flex-col transition-all text-sm hidden">
+      <div id="chat-popup" >
         
-        <div id="chat-header" class="flex justify-between items-center p-4 rounded-t-md">
-          <h3 class="m-0 text-lg">${headerText}</h3>
-          <button id="close-popup" class="border-none cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <div id="chat-header" >
+          <h3>${headerText}</h3>
+          <button id="close-popup">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
         
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto"></div>
+        <div id="chat-messages"></div>
         
-        <div id="chat-questions" class="flex overflow-x-auto space-x-2 p-4">
+        <div id="chat-questions">
         </div>
 
-        <div id="chat-input-container" class="p-4">
-          <div class="flex space-x-4 items-center">
+        <div id="chat-input-container" >
+          <div>
             <input type="text" id="chat-input" placeholder="${placeholderText}">
             <button id="chat-submit">Send</button>
           </div>
-          <div class="flex text-center text-xs pt-4">
-            <span class="flex-1" id="watermark">Powered by Wishchat</span>
-          </div>
+          <p id="watermark">Powered by Wishchat</p>
         </div>
 
       </div>
@@ -262,11 +305,31 @@
   const chatPopup = document.getElementById("chat-popup");
   const closePopup = document.getElementById("close-popup");
   const chatQuestions = document.getElementById("chat-questions");
+  chatBubble.addEventListener("click", function () {
+    console.log("ChatBubble clicked!!");
+    console.log("before bubble:", chatPopup.classList);
+    togglePopup();
+    console.log("after bubble:", chatPopup.classList);
+  });
+
+  closePopup.addEventListener("click", function () {
+    console.log("close button clicked!!");
+    console.log("Before close button:", chatPopup.classList);
+    togglePopup();
+    console.log("After close button:", chatPopup.classList);
+  });
+
+  function togglePopup() {
+    chatPopup.classList.toggle("hidden");
+    if (!chatPopup.classList.contains("hidden")) {
+      document.getElementById("chat-input").focus();
+    }
+  }
+
   if (FAQs) {
     FAQs.forEach((faq) => {
       const questionBtn = document.createElement("button");
-      questionBtn.className =
-        "bg-gray-200 px-2 py-2 rounded-md whitespace-nowrap flex-shrink-0 text-xs text-black";
+      questionBtn.id = "faq-button";
       questionBtn.textContent = faq.question;
       chatQuestions.appendChild(questionBtn);
       questionBtn.addEventListener("click", () => {
@@ -277,28 +340,19 @@
     chatQuestions.remove();
   }
   function handleFAQ(question, answer) {
-    const messageElement = document.createElement("div");
-    messageElement.className = "flex justify-end mb-3";
-    messageElement.innerHTML = `
-      <div class="bg-gray-800 text-white rounded-lg py-2 px-4 max-w-[70%]">
+    const questionElement = document.createElement("div");
+    questionElement.id = "question";
+
+    questionElement.innerHTML = `
+      <div>
         ${question}
       </div>
     `;
-    chatMessages.appendChild(messageElement);
-    const replyElement = document.createElement("div");
-    replyElement.className = "flex mb-3";
-    replyElement.innerHTML = `
-        <div class="bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]">
-          ${answer}
-        </div>
-      `;
-    const chatLoadingDiv = document.getElementById("chat-loading");
-    if (chatLoadingDiv) {
-      chatLoadingDiv.remove();
-    }
-    chatMessages.appendChild(replyElement);
+    chatMessages.appendChild(questionElement);
+    reply(answer);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
+
   chatSubmit.addEventListener("click", function () {
     const message = chatInput.value.trim();
     if (!message) return;
@@ -316,20 +370,6 @@
     }
   });
 
-  chatBubble.addEventListener("click", function () {
-    togglePopup();
-  });
-
-  closePopup.addEventListener("click", function () {
-    togglePopup();
-  });
-
-  function togglePopup() {
-    chatPopup.classList.toggle("hidden");
-    if (!chatPopup.classList.contains("hidden")) {
-      document.getElementById("chat-input").focus();
-    }
-  }
   const handlePrompt = async (message) => {
     try {
       const response = await fetch(
@@ -364,14 +404,14 @@
     console.log("User request:", message);
 
     // Display user message
-    const messageElement = document.createElement("div");
-    messageElement.className = "flex justify-end mb-3";
-    messageElement.innerHTML = `
-        <div class="bg-gray-800 text-white rounded-lg py-2 px-4 max-w-[70%]">
+    const questionElement = document.createElement("div");
+    questionElement.id = "question";
+    questionElement.innerHTML = `
+        <div>
           ${message}
         </div>
       `;
-    chatMessages.appendChild(messageElement);
+    chatMessages.appendChild(questionElement);
 
     const chatLoadingDiv = document.createElement("div");
     chatLoadingDiv.id = "chat-loading";
@@ -391,20 +431,17 @@
   }
 
   function reply(message) {
-    const replyElement = document.createElement("div");
-    replyElement.className = "flex mb-3";
-
+    const answerElement = document.createElement("div");
+    answerElement.id = "answer";
     const messageContainer = document.createElement("div");
-    messageContainer.className =
-      "bg-gray-200 text-black rounded-lg py-2 px-4 max-w-[70%]";
-    replyElement.appendChild(messageContainer);
+    answerElement.appendChild(messageContainer);
 
     const chatLoadingDiv = document.getElementById("chat-loading");
     if (chatLoadingDiv) {
       chatLoadingDiv.remove();
     }
 
-    chatMessages.appendChild(replyElement);
+    chatMessages.appendChild(answerElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     let index = 0;
